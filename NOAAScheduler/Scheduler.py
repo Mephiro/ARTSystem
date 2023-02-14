@@ -111,11 +111,11 @@ while (1):
 
     #Decodage de l'image
     print('Decoding...')
-    aptdec_a = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i a -d /home/pi/Pictures -o picture_'+sat+'_'+str(datetime.now())+'_channelA.png \
+    aptdec_a = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i a -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_channelA.png \
         /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-    aptdec_p = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i p -d /home/pi/Pictures -o picture_'+sat+'_'+str(datetime.now())+'_color.png \
+    aptdec_p = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i p -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_color.png \
         -p /home/pi/Dev/aptdec/palettes/WXtoImg-'+sat+'-HVC.png /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-    aptdec_t = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i t -d /home/pi/Pictures -o picture_'+sat+'_'+str(datetime.now())+'_temp.png \
+    aptdec_t = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i t -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_temp.png \
         /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
 
     exit_codes = [process.wait() for process in (aptdec_a, aptdec_p, aptdec_t)]
