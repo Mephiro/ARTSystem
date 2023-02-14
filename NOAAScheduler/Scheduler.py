@@ -18,7 +18,7 @@ def sigterm_handler(signal, frame):
 
 signal.signal(signal.SIGTERM, sigterm_handler)
 
-#Appel de la fonction ParsingPasses pour initialiser chaque passage de satellite
+#Appel de la fonction ParsingPasses pour initialiser les prochains passages de satellites
 NOAA15_start_time,NOAA15_stop_time,NOAA18_start_time,NOAA18_stop_time,NOAA19_start_time,NOAA19_stop_time = ParsingPasses()
 
 #Si noTracking est passé en argument le programme n'appele pas la fonction Tracker.py
@@ -70,7 +70,7 @@ while (1):
         print('next azimuth : '+str(next_az))
     print('')
 
-    #Attendre le prochain passage de satellite parmi ceux tracké
+    #Waiting for the next satellite to fly-by and start the recording
     while(datetime.now()<set_start_time):
         print(str(datetime.now())[:-7]+' | Waiting...',end='\r')
         time.sleep(1)
@@ -83,7 +83,8 @@ while (1):
     #Appel du script GnuRadio pour le temps d'apparition du satellite
     gnuradio = subprocess.Popen('python -u /home/pi/Dev/GR_NOAA_script/decodeur_NOAA'+sat[1:]+'_WAV.py', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
 		
-    #Attendre la fin du passage de satellite, Si un rotor Rot2proG est présent : affiche la position du satellite et la position actuel du rotor
+    #Waiting end of satellite fly-by and stop the recording
+    #If Rot2proG enable it shows the satellite azimuth/elevation and the current azimuth/elevation of the rotor
     while(datetime.now()<set_stop_time):
         if(noTracking != 'noTracking'):
             az_alt_str = os.read(fifo,50)

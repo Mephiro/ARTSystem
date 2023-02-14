@@ -1,3 +1,6 @@
+import os
+from datetime import datetime
+
 def ParsingPasses():
     #Appel system de APIUpdater.sh
     os.system('/home/pi/Dev/n2yoAPI/APIUpdate.sh')
