@@ -21,12 +21,12 @@ The gnuradio-compagnion software uses python2.7 for my setup (gnuradio v.3.7). I
 ### Modifying APIUpdate_tomodify.sh
 
 Go to ./n2yoAPI and open APIUpdate_tomodify.sh. From there you must replace 'YOUR-API-KEY' field with your API key from n2yo.com
+
 Change the name of the file to APIUpdate.sh for the main script.
 
 ### Modifying absolute paths to file
 
-I used absolute path for pretty much everything to be "safe" ~~I guess ??~~.
-The file concerned by that modification are :
+I used absolute path for pretty much everything to be "safe" ~~I guess ??~~. The file concerned by that modification are :
 ```
 n2yoAPI/APIUpdate.sh (or APIUpdate_tomodify.sh)
 n2yoAPI/AAPIParser.py
@@ -36,8 +36,7 @@ NOAAScheduler/Tracker.py
 ```
 ### Modifying serial port for Rot2proG rotor
 
-All the work here is done by [jaidenfe](https://github.com/jaidenfe/rot2proG).
-I just remove the stuff I don't need for this project. You can set the serial port for your rotor in the Tracker.py script :
+All the work here is done by [jaidenfe](https://github.com/jaidenfe/rot2proG). I just remove the stuff I don't need for this project. You can set the serial port for your rotor in the Tracker.py script :
 
 > Rotor = Rot2proG('**/dev/ttyS0**')
 
@@ -64,8 +63,7 @@ If you don't have a Rot2proG or you have a fixed antenna for receiving you have 
 
 ### Modification for another SDR 
 
-If you have another SDR you can open the gr_NOAA.grc file with gnuradio to change the SDR source. You'll have to regenerate all the scripts.
-For NOAA satellite the frequencies are :
+If you have another SDR you can open the gr_NOAA.grc file with gnuradio to change the SDR source. You'll have to regenerate all the scripts. For NOAA satellite the frequencies are :
 
 ```
 NOAA15 : 137.620 MHz
