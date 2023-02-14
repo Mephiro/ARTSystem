@@ -7,7 +7,7 @@ Autonomous Tracking and Capturing Program for NOAA satellites
 
 The scripts are targeted for Raspberry application but it should be compatible on any device with python3
 
-The gnu-radio-compagnion software uses python2.7 for my setup (gnu-radio v.3.7). If you have gnu-radio on python3 you must change the line 84 in the Scheduler.py script :
+The gnu-radio-compagnion software uses python2.7 for my setup (gnu-radio v.3.7). If you have gnu-radio on python3 you must change the line 84 in the Scheduler.py script and regenerate each gnu-radio script :
 > gnuradio = subprocess.Popen('**python** -u /home/pi/Dev/GR_NOAA_script/ ...
 
 ## First setup
