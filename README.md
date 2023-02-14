@@ -1,5 +1,5 @@
-# ATCProgram
-Autonomous Tracking and Capturing Program for NOAA satellites using SDRPlay RSP1A
+# ARTSystem
+Autonomous Receiving and Tracking System for NOAA satellites using SDRPlay RSP1A
 
 ## Disclamer
 
