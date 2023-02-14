@@ -1,5 +1,5 @@
 # ATCProgram
-Autonom Tracking and Capturing Program for NOAA satellites
+Autonomous Tracking and Capturing Program for NOAA satellites
 
 ## Disclamer
 
