@@ -1,5 +1,5 @@
 # ATCProgram
-Autonomous Tracking and Capturing Program for NOAA satellites
+Autonomous Tracking and Capturing Program for NOAA satellites using SDRPlay RSP1A
 
 ## Disclamer
 
@@ -7,8 +7,14 @@ Autonomous Tracking and Capturing Program for NOAA satellites
 
 The scripts are targeted for Raspberry application but it should be compatible on any device with python3
 
-The gnu-radio-compagnion software uses python2.7 for my setup (gnu-radio v.3.7). If you have gnu-radio on python3 you must change the line 84 in the Scheduler.py script and regenerate each gnu-radio script :
+The gnuradio-compagnion software uses python2.7 for my setup (gnuradio v.3.7). If you have gnuradio on python3 you must change the line 84 in the Scheduler.py script and regenerate each gnuradio script :
 > gnuradio = subprocess.Popen('**python** -u /home/pi/Dev/GR_NOAA_script/ ...
+
+## Dependencies
+
+- gnuradio-compagnion (https://www.gnuradio.org/) (tested with v.3.7 only)
+- aptdec (https://github.com/Xerbo/aptdec)
+- SDRPlay API and gnuradio bloc (https://www.sdrplay.com/) (If you are using another SDR you'll need the specific API and GR bloc)
 
 ## First setup
 
@@ -55,6 +61,17 @@ After setting everything up you just have to launch the Scheduler.py script with
 If you don't have a Rot2proG or you have a fixed antenna for receiving you have to launch the script with:
 
 > $python3 -u Scheduler.py noTracking
+
+### Modification for another SDR 
+
+If you have another SDR you can open the gr_NOAA.grc file with gnuradio to change the SDR source. You'll have to regenerate all the scripts.
+For NOAA satellite the frequencies are :
+
+```
+NOAA15 : 137.620 MHz
+NOAA18 : 137.9125 MHz
+NOAA19 : 137.100 MHz
+```
 
 # TODO
 
