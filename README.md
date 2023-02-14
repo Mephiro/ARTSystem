@@ -76,4 +76,4 @@ NOAA19 : 137.100 MHz
 - [ ] Switch comments to english
 - [ ] Test rotor in real condition with tracking activated
 
-Everything is a big mess for now but it should work as espected. I will probably clean thing up with the time.
+Everything is a big mess for now but it should works as espected. I will probably clean thing up with the time.
