@@ -1,4 +1,5 @@
 from datetime import datetime
+from Predict import ParsingPasses
 import subprocess
 import signal
 import os
@@ -15,69 +16,9 @@ def sigterm_handler(signal, frame):
     	os.killpg(os.getpgid(tracker.pid), signal.SIGTERM)
     sys.exit(0)
 
-def ParsingPasses():
-    #Appel system de APIUpdater.sh
-    os.system('/home/pi/Dev/n2yoAPI/APIUpdate.sh')
-    # Parsing du fichier de passage généré par l'API (C'est de la merde et je m'en branle)
-    Passes = open("/home/pi/Dev/n2yoAPI/Passes_time.txt","r")
-    line='0'
-    NOAA15_start=[]
-    NOAA15_stop=[]
-    NOAA18_start=[]
-    NOAA18_stop=[]
-    NOAA19_start=[]
-    NOAA19_stop=[]
-    while (len(line) != 0):
-        line = Passes.readlines(1)
-        if (len(line) != 0):
-            line = line[0].strip()
-            if (line=='NOAA15'):
-                NOAA15_start_stop = Passes.readlines(1)[0].strip().split(',')
-                for x in NOAA15_start_stop:
-                    if (len(x)>0):
-                        temp = x.split(';')
-                        NOAA15_start.append(temp[0])
-                        NOAA15_stop.append(temp[1])
-            if (line=='NOAA18'):
-                NOAA18_start_stop = Passes.readlines(1)[0].strip().split(',')
-                for x in NOAA18_start_stop:
-                    if (len(x)>0):
-                        temp = x.split(';')
-                        NOAA18_start.append(temp[0])
-                        NOAA18_stop.append(temp[1])
-            if (line=='NOAA19'):
-                NOAA19_start_stop = Passes.readlines(1)[0].strip().split(',')
-                for x in NOAA19_start_stop:
-                    if (len(x)>0):
-                        temp = x.split(';')
-                        NOAA19_start.append(temp[0])
-                        NOAA19_stop.append(temp[1])
-    Passes.close()
-
-    #Transforme tout ça en date pour le PC
-    NOAA15_start_time = []
-    NOAA15_stop_time = []
-    for i in range(len(NOAA15_start)):
-        NOAA15_start_time.append(datetime.strptime(NOAA15_start[i],'%Y-%m-%d %H:%M:%S'))
-        NOAA15_stop_time.append(datetime.strptime(NOAA15_stop[i],'%Y-%m-%d %H:%M:%S'))
-
-    NOAA18_start_time = []
-    NOAA18_stop_time = []
-    for i in range(len(NOAA18_start)):
-        NOAA18_start_time.append(datetime.strptime(NOAA18_start[i],'%Y-%m-%d %H:%M:%S'))
-        NOAA18_stop_time.append(datetime.strptime(NOAA18_stop[i],'%Y-%m-%d %H:%M:%S'))
-
-    NOAA19_start_time = []
-    NOAA19_stop_time = []
-    for i in range(len(NOAA19_start)):
-        NOAA19_start_time.append(datetime.strptime(NOAA19_start[i],'%Y-%m-%d %H:%M:%S'))
-        NOAA19_stop_time.append(datetime.strptime(NOAA19_stop[i],'%Y-%m-%d %H:%M:%S'))
-
-    return NOAA15_start_time,NOAA15_stop_time,NOAA18_start_time,NOAA18_stop_time,NOAA19_start_time,NOAA19_stop_time
-
 signal.signal(signal.SIGTERM, sigterm_handler)
 
-#Appel de la fonction de mort pour initialiser chaque variable
+#Appel de la fonction ParsingPasses pour initialiser chaque passage de satellite
 NOAA15_start_time,NOAA15_stop_time,NOAA18_start_time,NOAA18_stop_time,NOAA19_start_time,NOAA19_stop_time = ParsingPasses()
 
 #Si noTracking est passé en argument le programme n'appele pas la fonction Tracker.py
@@ -129,7 +70,7 @@ while (1):
         print('next azimuth : '+str(next_az))
     print('')
 
-    #Waiting for the time to start the recording
+    #Attendre le prochain passage de satellite parmi ceux tracké
     while(datetime.now()<set_start_time):
         print(str(datetime.now())[:-7]+' | Waiting...',end='\r')
         time.sleep(1)
@@ -142,7 +83,7 @@ while (1):
     #Appel du script GnuRadio pour le temps d'apparition du satellite
     gnuradio = subprocess.Popen('python -u /home/pi/Dev/GR_NOAA_script/decodeur_NOAA'+sat[1:]+'_WAV.py', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
 		
-    #Waiting for the time to stop the recording
+    #Attendre la fin du passage de satellite, Si un rotor Rot2proG est présent : affiche la position du satellite et la position actuel du rotor
     while(datetime.now()<set_stop_time):
         if(noTracking != 'noTracking'):
             az_alt_str = os.read(fifo,50)
@@ -180,7 +121,7 @@ while (1):
     print('Images done !')
     print('')
     
-    #Appel de la fonction pour reinitialiser toutes les dates
+    #Appel de la fonction ParsingPasses pour reinitialiser toutes les dates
     NOAA15_start_time,NOAA15_stop_time,NOAA18_start_time,NOAA18_stop_time,NOAA19_start_time,NOAA19_stop_time = ParsingPasses()
 
     time.sleep(1)
