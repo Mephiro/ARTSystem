@@ -35,6 +35,17 @@ I just remove the stuff I don't need for this project. You can set the serial po
 
 > Rotor = Rot2proG('**/dev/ttyS0**')
 
+### Create fifo for subprocesses
+
+in the folder /NOAAScheduler do :
+
+```
+mkfifo az_alt.fifo
+chmod 664 az_alt.fifo
+mkfifo date.fifo
+chmod 664 date.fifo
+```
+
 ## How to use ?
 
 After setting everything up you just have to launch the Scheduler.py script with :
