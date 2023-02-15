@@ -11,7 +11,7 @@ from Rotor import Rot2proG
 
 local = pytz.timezone("Europe/Paris")
 Rotor = Rot2proG('/dev/ttyS0')
-Path = '/home/pi/Dev'
+Path = '/home/pi/Dev/ARTSystem'
 
 def sigterm_handler(signal, frame):
     Rotor.stop()
