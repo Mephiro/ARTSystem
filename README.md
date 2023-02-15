@@ -73,7 +73,8 @@ NOAA19 : 137.100 MHz
 
 # TODO
 
-- [ ] Switch comments to english
 - [ ] Test rotor in real condition with tracking activated
+- [ ] Merge gnuradio scripts into one for every satellites
+- [ ] Add compatibility with bladerf SDR
 
 Everything is a big mess for now but it should works as espected. I will probably clean thing up with the time.
