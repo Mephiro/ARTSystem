@@ -71,6 +71,22 @@ NOAA18 : 137.9125 MHz
 NOAA19 : 137.100 MHz
 ```
 
+## What it does ?
+
+When launching Scheduler.py the script will update all the files needed from n2yoAPI.
+
+From there it will wait for the next satellite to cross the sky with a maximum elevation of at least 40°.
+
+During fly-by the script launches 2 scripts :
+- gnuradio script which save audio file of the WFM decoded signal
+- tracking script (if tracking enable) which send to the rotor the azimuth/elevation coordinates of the satellite
+
+When Fly-by ends the two previous scripts are closed and aptdec is called to decode the WAV file previously recorded.
+
+By default aptdec saves 3 images to the ~/Pictures folder : the raw channelA, the false colored and the temperature image.
+
+It then updates the files with n2yoAPI and loop to wait for the next passe.
+
 # TODO
 
 - [ ] Test rotor in real condition with tracking activated
