@@ -34,6 +34,7 @@ NOAAScheduler/Predict.py
 NOAAScheduler/Scheduler.py
 NOAAScheduler/Tracker.py
 ```
+On each concerned file a variable Path is declared to set your own Path. Scheduler.py also has a variable for Picture_path.
 ### Modifying serial port for Rot2proG rotor
 
 All the work here is done by [jaidenfe](https://github.com/jaidenfe/rot2proG). I just remove the stuff I don't need for this project. You can set the serial port for your rotor in the Tracker.py script :
