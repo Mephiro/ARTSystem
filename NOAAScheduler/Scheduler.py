@@ -6,6 +6,8 @@ import os
 import sys
 import time
 
+Path = '/home/pi/Dev'
+
 def sigterm_handler(signal, frame):
     print('Exiting...')
     os.close(fifo)
@@ -57,9 +59,9 @@ while (1):
     
     if(noTracking != 'noTracking'):
         #Mise a jour du prochain azimuth pour le reglage du rotor
-        tracker = subprocess.Popen('python3 -u /home/pi/Dev/NOAAScheduler/Tracker.py '+sat+' Date', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-        fifo = os.open('/home/pi/Dev/NOAAScheduler/az_alt.fifo', os.O_RDONLY)
-        date_fifo = os.open('/home/pi/Dev/NOAAScheduler/date.fifo', os.O_WRONLY)
+        tracker = subprocess.Popen('python3 -u '+Path+'/ARTSystem/NOAAScheduler/Tracker.py '+sat+' Date', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+        fifo = os.open(Path+'/ARTSystem/NOAAScheduler/az_alt.fifo', os.O_RDONLY)
+        date_fifo = os.open(Path+'/ARTSystem/NOAAScheduler/date.fifo', os.O_WRONLY)
         os.write(date_fifo,bytes(str(set_start_time),'utf-8'))
         os.close(date_fifo)
         next_az_str = str(os.read(fifo,50))[2:-1]
@@ -77,11 +79,11 @@ while (1):
     print('')
         
     if(noTracking != 'noTracking'):
-    	tracker = subprocess.Popen('python3 -u /home/pi/Dev/NOAAScheduler/Tracker.py '+sat, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-    	fifo = os.open("/home/pi/Dev/NOAAScheduler/az_alt.fifo", os.O_RDONLY)
+    	tracker = subprocess.Popen('python3 -u '+Path+'/ARTSystem/NOAAScheduler/Tracker.py '+sat, stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    	fifo = os.open(Path+'/ARTSystem/NOAAScheduler/az_alt.fifo', os.O_RDONLY)
 
     #Appel du script GnuRadio pour le temps d'apparition du satellite
-    gnuradio = subprocess.Popen('python -u /home/pi/Dev/GR_NOAA_script/decodeur_NOAA'+sat[1:]+'_WAV.py', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    gnuradio = subprocess.Popen('python -u '+Path+'/ARTSystem/GR_NOAA_script/decodeur_NOAA'+sat[1:]+'_WAV.py', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
 		
     #Waiting end of satellite fly-by and stop the recording
     #If Rot2proG enable it shows the satellite azimuth/elevation and the current azimuth/elevation of the rotor
@@ -103,20 +105,20 @@ while (1):
 
     #Stop script GR NOAA
     print('Stopping...')
-    os.close(fifo)
     os.killpg(os.getpgid(gnuradio.pid), signal.SIGTERM)
-    if(tracker):	
-    	os.killpg(os.getpgid(tracker.pid), signal.SIGTERM)
+    if(noTracking != 'noTracking'):
+        os.close(fifo)
+        os.killpg(os.getpgid(tracker.pid), signal.SIGTERM)
     time.sleep(1)
 
     #Decodage de l'image
     print('Decoding...')
-    aptdec_a = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i a -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_channelA.png \
-        /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-    aptdec_p = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i p -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_color.png \
-        -p /home/pi/Dev/aptdec/palettes/WXtoImg-'+sat+'-HVC.png /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-    aptdec_t = subprocess.Popen('/home/pi/Dev/aptdec/build/aptdec -i t -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_temp.png \
-        /home/pi/Dev/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    aptdec_a = subprocess.Popen(Path+'/aptdec/build/aptdec -i a -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_channelA.png ' \
+        +Path+'/ARTSystem/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    aptdec_p = subprocess.Popen(Path+'/aptdec/build/aptdec -i p -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_color.png \
+        -p '+Path+'/aptdec/palettes/WXtoImg-'+sat+'-HVC.png '+Path+'/ARTSystem/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    aptdec_t = subprocess.Popen(Path+'/aptdec/build/aptdec -i t -d /home/pi/Pictures -o picture_'+sat+'_'+str(set_start_time)+'_temp.png ' \
+        +Path+'/ARTSystem/GR_NOAA_script/record.wav', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
 
     exit_codes = [process.wait() for process in (aptdec_a, aptdec_p, aptdec_t)]
     print('Images done !')

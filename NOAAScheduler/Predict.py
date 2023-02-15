@@ -1,11 +1,12 @@
 import os
 from datetime import datetime
+Path = '/home/pi/Dev'
 
 def ParsingPasses():
     #Appel system de APIUpdater.sh
-    os.system('/home/pi/Dev/n2yoAPI/APIUpdate.sh')
+    os.system(Path+'/ARTSystem/n2yoAPI/APIUpdate.sh')
     #Parsing du fichier de passage généré par l'API
-    Passes = open("/home/pi/Dev/n2yoAPI/Passes_time.txt","r")
+    Passes = open(Path+'/ARTSystem/n2yoAPI/Passes_time.txt','r')
     line='0'
     NOAA15_start=[]
     NOAA15_stop=[]

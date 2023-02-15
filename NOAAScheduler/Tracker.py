@@ -11,6 +11,7 @@ from Rotor import Rot2proG
 
 local = pytz.timezone("Europe/Paris")
 Rotor = Rot2proG('/dev/ttyS0')
+Path = '/home/pi/Dev'
 
 def sigterm_handler(signal, frame):
     Rotor.stop()
@@ -25,7 +26,7 @@ if len(sys.argv) < 2:
     sys.exit(0)
 
 sat = str(sys.argv[1])
-TLE_file = open('/home/pi/Dev/NOAAScheduler/'+sat+'_TLE.json','r')
+TLE_file = open(Path+'/NOAAScheduler/'+sat+'_TLE.json','r')
 TLE = TLE_file.readlines()
 lines = str(TLE).split(',')[4].split('r')
 line1 = lines[0][lines[0].find('1'):lines[0].find('\\')]
@@ -39,7 +40,7 @@ BOD = ephem.Observer()
 BOD.lat, BOD.lon, BOD.elevation = '44:48:58.5','-0:34:25.5',20
 BOD.pressure, BOD.temperature = 1010,25
 
-fifo = os.open('/home/pi/Dev/NOAAScheduler/az_alt.fifo', os.O_WRONLY)
+fifo = os.open(Path+'/NOAAScheduler/az_alt.fifo', os.O_WRONLY)
 
 if len(sys.argv) > 2:
     Mode = sys.argv[2]
@@ -47,7 +48,7 @@ else:
     Mode = ''
 
 if (Mode=='Date'):
-    date_fifo = os.open('/home/pi/Dev/NOAAScheduler/date.fifo', os.O_RDONLY)
+    date_fifo = os.open(Path+'/NOAAScheduler/date.fifo', os.O_RDONLY)
     next_date = os.read(date_fifo,50)
     os.close(date_fifo)
 

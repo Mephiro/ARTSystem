@@ -1,11 +1,11 @@
 import datetime
-
+Path = '/home/pi/Dev'
 #Ouverture des fichers obtenus par l'API
-NOAA15_file = open("/home/pi/Dev/n2yoAPI/NOAA15.json","r")
-NOAA18_file = open("/home/pi/Dev/n2yoAPI/NOAA18.json","r")
-NOAA19_file = open("/home/pi/Dev/n2yoAPI/NOAA19.json","r")
+NOAA15_file = open(Path+'/ARTSystem/n2yoAPI/NOAA15.json','r')
+NOAA18_file = open(Path+'/ARTSystem/n2yoAPI/NOAA18.json','r')
+NOAA19_file = open(Path+'/ARTSystem/n2yoAPI/NOAA19.json','r')
 #Ouverture du fichiers de sortie
-Passes_time = open("/home/pi/Dev/n2yoAPI/Passes_time.txt","w")
+Passes_time = open(Path+'/ARTSystem/n2yoAPI/Passes_time.txt','w')
 
 
 def NOAA(NOAA_file):
