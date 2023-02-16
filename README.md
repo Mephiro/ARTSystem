@@ -56,11 +56,11 @@ chmod 664 date.fifo
 
 After setting everything up you just have to launch the Scheduler.py script with :
 
-> $python3 -u Scheduler.py
+> ./Scheduler.py
 
 If you don't have a Rot2proG or you have a fixed antenna for receiving you have to launch the script with:
 
-> $python3 -u Scheduler.py noTracking
+> ./Scheduler.py noTracking
 
 ### Modification for another SDR 
 
