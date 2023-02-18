@@ -33,7 +33,7 @@ else:
 
 print( "\033[2J")
 print("\033[1;1H")
-while (1):    
+while (1):
     #Recherche de la prochaine date/heure de passage et du satellite concerné
     nexttime = NOAA15_start_time[0]
     sat='N15'
@@ -53,12 +53,12 @@ while (1):
     else:
         set_start_time = NOAA19_start_time.pop(0)
         set_stop_time = NOAA19_stop_time.pop(0)
-        
+
     #Affichage du prochain passage
     print('next satellite : '+sat)
     print('next start : '+str(set_start_time))
     print('next stop : '+str(set_stop_time))
-    
+
     if(noTracking != 'noTracking'):
         #Mise a jour du prochain azimuth pour le reglage du rotor
         tracker = subprocess.Popen('python3 -u '+Path+'/NOAAScheduler/Tracker.py '+sat+' Date', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
@@ -69,7 +69,7 @@ while (1):
         next_az_str = str(os.read(fifo,50))[2:-1]
         os.close(fifo)
         next_az = round(float(next_az_str),3)
-        
+
         #Affichage du prochain azimuth si tracking activé
         print('next azimuth : '+str(next_az))
     print('')
@@ -85,8 +85,16 @@ while (1):
     	fifo = os.open(Path+'/NOAAScheduler/az_alt.fifo', os.O_RDONLY)
 
     #Appel du script GnuRadio pour le temps d'apparition du satellite
-    gnuradio = subprocess.Popen('python -u '+Path+'/GR_NOAA_script/decodeur_NOAA'+sat[1:]+'_WAV.py', stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
-		
+    if sat=='N15':
+        freq=137.62e6
+    elif sat=='N18':
+        freq=137.9125e6
+    else:
+        freq=137.1e6
+
+    gnuradio = subprocess.Popen('python -u '+Path+'/GR_NOAA_script/decodeur_NOAA_WAV.py -f '+str(freq), stdout=subprocess.PIPE,shell=True, preexec_fn=os.setsid)
+    print('')
+
     #Waiting end of satellite fly-by and stop the recording
     #If Rot2proG enable it shows the satellite azimuth/elevation and the current azimuth/elevation of the rotor
     while(datetime.now()<set_stop_time):

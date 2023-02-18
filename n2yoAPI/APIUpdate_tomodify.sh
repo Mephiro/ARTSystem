@@ -2,11 +2,12 @@
 
 #Put your API from n2yo.com into the 'YOUR-API-KEY' field and rename the file APIUpdate.sh
 APIKey=YOUR-API-KEY
+Alt_min=20
 Path=/home/pi/Dev/ARTSystem
 
-curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/33591/44.821781/-0.56531/20/2/40/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA19.json' & >&- 2>&-
-curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/28654/44.821781/-0.56531/20/2/40/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA18.json' & >&- 2>&-
-curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/25338/44.821781/-0.56531/20/2/40/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA15.json' & >&- 2>&-
+curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/33591/44.821781/-0.56531/20/2/'$Alt_min'/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA19.json' & >&- 2>&-
+curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/28654/44.821781/-0.56531/20/2/'$Alt_min'/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA18.json' & >&- 2>&-
+curl -s 'https://api.n2yo.com/rest/v1/satellite/radiopasses/25338/44.821781/-0.56531/20/2/'$Alt_min'/&apiKey='$APIKey -o $Path'/n2yoAPI/NOAA15.json' & >&- 2>&-
 wait
 
 python3 -u $Path/n2yoAPI/APIParser.py

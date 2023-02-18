@@ -30,7 +30,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(8, 8)</value>
+      <value>(8, 12)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -46,7 +46,7 @@
     </param>
     <param>
       <key>id</key>
-      <value>decodeur_NOAA18_WAV</value>
+      <value>decodeur_NOAA_WAV</value>
     </param>
     <param>
       <key>max_nouts</key>
@@ -101,7 +101,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(40, 116)</value>
+      <value>(200, 148)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -109,11 +109,11 @@
     </param>
     <param>
       <key>id</key>
-      <value>freq</value>
+      <value>dec</value>
     </param>
     <param>
       <key>value</key>
-      <value>137.9125e6</value>
+      <value>1</value>
     </param>
   </block>
   <block>
@@ -128,7 +128,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 76)</value>
+      <value>(200, 84)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -140,7 +140,7 @@
     </param>
     <param>
       <key>value</key>
-      <value>2e6</value>
+      <value>0.25e6</value>
     </param>
   </block>
   <block>
@@ -155,7 +155,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(184, 12)</value>
+      <value>(200, 20)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -174,7 +174,7 @@
     <key>analog_wfm_rcv</key>
     <param>
       <key>audio_decimation</key>
-      <value>1</value>
+      <value>5</value>
     </param>
     <param>
       <key>alias</key>
@@ -194,7 +194,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(544, 348)</value>
+      <value>(632, 348)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -241,7 +241,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 356)</value>
+      <value>(912, 356)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -288,11 +288,11 @@
     </param>
     <param>
       <key>file</key>
-      <value>/home/pi/Dev/GR_NOAA_script/record.wav</value>
+      <value>/home/pi/Dev/ARTSystem/GR_NOAA_script/record.wav</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(792, 420)</value>
+      <value>(912, 420)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -312,7 +312,58 @@
     </param>
   </block>
   <block>
-    <key>rational_resampler_xxx</key>
+    <key>parameter</key>
+    <param>
+      <key>alias</key>
+      <value></value>
+    </param>
+    <param>
+      <key>comment</key>
+      <value></value>
+    </param>
+    <param>
+      <key>_enabled</key>
+      <value>True</value>
+    </param>
+    <param>
+      <key>_coordinate</key>
+      <value>(296, 20)</value>
+    </param>
+    <param>
+      <key>_rotation</key>
+      <value>0</value>
+    </param>
+    <param>
+      <key>id</key>
+      <value>freq</value>
+    </param>
+    <param>
+      <key>label</key>
+      <value>Frequency</value>
+    </param>
+    <param>
+      <key>short_id</key>
+      <value>f</value>
+    </param>
+    <param>
+      <key>hide</key>
+      <value>none</value>
+    </param>
+    <param>
+      <key>type</key>
+      <value>eng_float</value>
+    </param>
+    <param>
+      <key>value</key>
+      <value>89.7e6</value>
+    </param>
+  </block>
+  <block>
+    <key>low_pass_filter</key>
+    <param>
+      <key>beta</key>
+      <value>6.76</value>
+    </param>
     <param>
       <key>alias</key>
       <value></value>
@@ -326,28 +377,36 @@
       <value></value>
     </param>
     <param>
+      <key>cutoff_freq</key>
+      <value>25e3</value>
+    </param>
+    <param>
       <key>decim</key>
-      <value>4</value>
+      <value>1</value>
     </param>
     <param>
       <key>_enabled</key>
       <value>True</value>
     </param>
     <param>
-      <key>fbw</key>
-      <value>0</value>
+      <key>type</key>
+      <value>fir_filter_ccf</value>
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(336, 332)</value>
+      <value>(392, 308)</value>
     </param>
     <param>
       <key>_rotation</key>
       <value>0</value>
     </param>
     <param>
+      <key>gain</key>
+      <value>1</value>
+    </param>
+    <param>
       <key>id</key>
-      <value>rational_resampler_xxx_0</value>
+      <value>low_pass_filter_0</value>
     </param>
     <param>
       <key>interp</key>
@@ -362,12 +421,16 @@
       <value>0</value>
     </param>
     <param>
-      <key>taps</key>
-      <value></value>
+      <key>samp_rate</key>
+      <value>rf_rate</value>
     </param>
     <param>
-      <key>type</key>
-      <value>ccc</value>
+      <key>width</key>
+      <value>5e3</value>
+    </param>
+    <param>
+      <key>win</key>
+      <value>firdes.WIN_HAMMING</value>
     </param>
   </block>
   <block>
@@ -378,7 +441,7 @@
     </param>
     <param>
       <key>bw</key>
-      <value>1536</value>
+      <value>200</value>
     </param>
     <param>
       <key>biasT</key>
@@ -422,7 +485,7 @@
     </param>
     <param>
       <key>_coordinate</key>
-      <value>(88, 244)</value>
+      <value>(128, 244)</value>
     </param>
     <param>
       <key>_rotation</key>
@@ -434,11 +497,11 @@
     </param>
     <param>
       <key>if_atten_db</key>
-      <value>40</value>
+      <value>20</value>
     </param>
     <param>
       <key>ifType</key>
-      <value>450</value>
+      <value>0</value>
     </param>
     <param>
       <key>iq_balance_mode</key>
@@ -482,14 +545,14 @@
     <sink_key>0</sink_key>
   </connection>
   <connection>
-    <source_block_id>rational_resampler_xxx_0</source_block_id>
+    <source_block_id>low_pass_filter_0</source_block_id>
     <sink_block_id>analog_wfm_rcv_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>
   <connection>
     <source_block_id>sdrplay_rsp1a_source_0</source_block_id>
-    <sink_block_id>rational_resampler_xxx_0</sink_block_id>
+    <sink_block_id>low_pass_filter_0</sink_block_id>
     <source_key>0</source_key>
     <sink_key>0</sink_key>
   </connection>

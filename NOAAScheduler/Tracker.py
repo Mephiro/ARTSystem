@@ -10,7 +10,7 @@ import pytz
 from Rotor import Rot2proG
 
 local = pytz.timezone("Europe/Paris")
-Rotor = Rot2proG('/dev/ttyS0')
+Rotor = Rot2proG('/dev/ttyUSB0')
 Path = '/home/pi/Dev/ARTSystem'
 
 def sigterm_handler(signal, frame):
@@ -58,14 +58,13 @@ if (Mode=='Date'):
     BOD.date = utc_dt
     NOAA.compute(BOD)
     next_az = NOAA.az*180/np.pi
-    
+
     #Reglage de la prochaine position + attente que la position soit atteinte
     Rotor.set(round(next_az,1),0.0)
     Rotor_az, Rotor_alt, ph = Rotor.status()
-    while([Rotor_az, Rotor_alt] != [round(next_az,1),0.0]):
-        Rotor_az, Rotor_alt, ph = Rotor.status()
+    while((np.abs(Rotor_az-round(next_az,1)) > 0.2) or (Rotor_alt>0.2)):
         time.sleep(1)
-
+        Rotor_az, Rotor_alt, ph = Rotor.status()
     os.write(fifo,bytes(str(next_az),'utf-8'))
     os.close(fifo)
     sys.exit(0)
@@ -77,7 +76,6 @@ else:
         current_az, current_alt = NOAA.az*180/np.pi, NOAA.alt*180/np.pi
         Rotor.set(round(current_az,1),round(current_alt,1))
         Rotor_az, Rotor_alt, ph = Rotor.status()
-        
         #Ecriture des valeurs obtenue dans la fifo
         os.write(fifo,bytes(str(current_az)+' '+str(current_alt)+' '+str(Rotor_az)+' '+str(Rotor_alt),'utf-8'))
         time.sleep(1)
