@@ -90,9 +90,7 @@ It then updates the files with n2yoAPI and loop to wait for the next passe.
 
 # TODO
 
-- [ ] Test rotor in real condition with tracking activated
-- [ ] Update to gnuradio 3.10
+- [x] Test rotor in real condition with tracking activated
 - [ ] Merge gnuradio scripts into one for every satellites
-- [ ] Add compatibility with bladerf SDR
 
 Everything is a big mess for now but it should works as espected. I will probably clean thing up with the time.
