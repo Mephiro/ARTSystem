@@ -91,6 +91,7 @@ It then updates the files with n2yoAPI and loop to wait for the next passe.
 # TODO
 
 - [x] Test rotor in real condition with tracking activated
-- [ ] Merge gnuradio scripts into one for every satellites
+- [x] Merge gnuradio scripts into one for every satellites
+- [ ] Script for bladerf compatibility
 
 Everything is a big mess for now but it should works as espected. I will probably clean thing up with the time.
