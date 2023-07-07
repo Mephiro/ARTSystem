@@ -3,7 +3,7 @@ Autonomous Receiving and Tracking System for NOAA satellites using SDRPlay RSP1A
 
 ## Disclamer
 
-**This project is currently in dev, the rotor control has not been tested in real condition yet.**
+**This project is currently in dev**
 
 The scripts are targeted for Raspberry application but it should be compatible on any device with python3
 
